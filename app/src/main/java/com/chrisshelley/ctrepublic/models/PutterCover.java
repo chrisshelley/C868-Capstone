@@ -1,4 +1,4 @@
 package com.chrisshelley.ctrepublic.models;
 
-public class PutterCover extends HeadCover {
+public class PutterCover extends CollectionItem {
 }

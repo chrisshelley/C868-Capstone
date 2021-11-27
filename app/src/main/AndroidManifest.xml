@@ -11,9 +11,11 @@
         android:theme="@style/Theme.CTRepublic">
         <activity
             android:name=".activities.Reports"
+            android:parentActivityName=".activities.Home"
             android:exported="false" />
         <activity
-            android:name=".activities.CoverDetails"
+            android:name=".activities.ItemDetails"
+            android:parentActivityName=".activities.CollectionList"
             android:exported="false" />
         <activity
             android:name=".activities.Home"
@@ -25,7 +27,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.CoverList"
+            android:name=".activities.CollectionList"
+            android:parentActivityName=".activities.Home"
             android:exported="false" />
     </application>
 
