@@ -5,9 +5,12 @@
       <map>
         <entry key="..\:/Users/chris/src/C868-Capstone/app/src/main/res/layout/activity_cover_list.xml" value="0.15830800405268491" />
         <entry key="..\:/Users/chris/src/C868-Capstone/app/src/main/res/layout/activity_home.xml" value="0.1648148148148148" />
+        <entry key="..\:/Users/chris/src/C868-Capstone/app/src/main/res/layout/activity_item_details.xml" value="0.15932117527862208" />
         <entry key="..\:/Users/chris/src/C868-Capstone/app/src/main/res/layout/collection_item.xml" value="0.26570415400202635" />
+        <entry key="..\:/Users/chris/src/C868-Capstone/app/src/main/res/menu/menu_collection_list.xml" value="0.1" />
         <entry key="..\:/Users/chris/src/C868-Capstone/app/src/main/res/menu/menu_cover_details.xml" value="0.20555555555555555" />
         <entry key="..\:/Users/chris/src/C868-Capstone/app/src/main/res/menu/menu_cover_list.xml" value="0.20555555555555555" />
+        <entry key="..\:/Users/chris/src/C868-Capstone/app/src/main/res/menu/menu_item_details.xml" value="0.32760416666666664" />
         <entry key="..\:/Users/chris/src/C868-Capstone/app/src/main/res/menu/menu_reports.xml" value="0.20555555555555555" />
       </map>
     </option>

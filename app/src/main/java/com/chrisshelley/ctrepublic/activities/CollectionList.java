@@ -5,10 +5,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -56,8 +58,23 @@ public class CollectionList extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_new_item:
+                Intent navigationIntent = new Intent(this, ItemDetails.class);
+                navigationIntent.putExtra(CTRepublic.ITEM_ID, CTRepublic.NO_DATABASE_ID);
+                startActivity(navigationIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void onItemSelected(CollectionItem collectionItem) {
-        //TODO: something
+        Intent navigationIntent = new Intent(this, ItemDetails.class);
+        navigationIntent.putExtra(CTRepublic.ITEM_ID, collectionItem.getID());
+        startActivity(navigationIntent);
     }
 
     private class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

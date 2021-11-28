@@ -6,4 +6,76 @@
     android:layout_height="match_parent"
     tools:context=".activities.ItemDetails">
 
+    <LinearLayout
+        android:id="@+id/layout_scroll_view"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:id="@+id/left_side"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <EditText
+                    android:id="@+id/txt_item_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Item Name"/>
+
+                <Spinner
+                    android:id="@+id/spinner_item_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/txt_release_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="MM/DD/YYYY"/>
+
+                <EditText
+                    android:id="@+id/txt_purchase_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Purchase Price"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/right_side"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/image_item_featured"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/course_notes"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:hint="Notes"
+            android:gravity="top"
+            android:inputType="textMultiLine"/>
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

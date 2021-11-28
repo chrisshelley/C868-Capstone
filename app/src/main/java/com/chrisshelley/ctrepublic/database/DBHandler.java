@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.chrisshelley.ctrepublic.models.CollectionItem;
+import com.chrisshelley.ctrepublic.models.PutterCover;
+import com.chrisshelley.ctrepublic.models.WoodCover;
 
 import java.util.ArrayList;
 
@@ -33,6 +35,20 @@ public class DBHandler extends SQLiteOpenHelper {
     public ArrayList<CollectionItem> getCollection() {
         ArrayList<CollectionItem> collection = new ArrayList<>();
         //TODO: this
+        PutterCover pc1 = new PutterCover();
+        pc1.setName("Putter Cover 1");
+        PutterCover pc2 = new PutterCover();
+        pc2.setName("Putter Cover 2");
+        WoodCover wc1 = new WoodCover();
+        wc1.setName("Wood Cover 1");
+        collection.add(pc1);
+        collection.add(pc2);
+        collection.add(wc1);
         return collection;
     }
+
+    public CollectionItem getItem(int id) {
+        //TODO: this
+    }
+
 }

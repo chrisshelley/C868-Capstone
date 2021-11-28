@@ -3,6 +3,7 @@ package com.chrisshelley.ctrepublic.models;
 import java.util.Date;
 
 public abstract class CollectionItem {
+    private Integer mID;
     private String mName;
     private Integer mItemType;
     private Integer mItemSubtype;
@@ -10,6 +11,10 @@ public abstract class CollectionItem {
     private Double mPurchasePrice;
     private String mDescription;
     private String mNotes;
+
+    public Integer getID() { return mID; }
+
+    public void setID(Integer id) { mID = id; }
 
     public String getName() { return mName; }
 
