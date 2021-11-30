@@ -49,6 +49,11 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public CollectionItem getItem(int id) {
         //TODO: this
+        return new PutterCover();
+    }
+
+    public void deleteItem(int id) {
+        //TODO: this
     }
 
 }
