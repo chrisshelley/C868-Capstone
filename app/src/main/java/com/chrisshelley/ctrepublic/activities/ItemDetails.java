@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -31,6 +32,28 @@ public class ItemDetails extends AppCompatActivity {
         mDBHandler = CTRepublic.getInstance().getDBHandler(this);
 
         setTitle("Item Details");
+
+        mItemName = (EditText) findViewById(R.id.txt_item_name);
+
+        mReleaseDate = (EditText) findViewById(R.id.txt_release_date);
+        mReleaseDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    CTRepublic.getDateFromPicker(mReleaseDate, ItemDetails.this);
+                }
+            }
+        });
+        mReleaseDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CTRepublic.getDateFromPicker(mReleaseDate, ItemDetails.this);
+            }
+        });
+
+        mPurchasePrice = (EditText) findViewById(R.id.txt_purchase_price);
+
+        mItemType = (Spinner) findViewById(R.id.spinner_item_type);
     }
 
     @Override

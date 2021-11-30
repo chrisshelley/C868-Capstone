@@ -116,10 +116,11 @@ public class CollectionList extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            if (mCollection != null) {
+            try {
                 return mCollection.size();
+            } catch (NullPointerException e) {
+                return 0;
             }
-            return 0;
         }
     }
 }

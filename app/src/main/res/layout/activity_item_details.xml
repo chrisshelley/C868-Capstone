@@ -24,6 +24,11 @@
                 android:layout_weight="1"
                 android:orientation="vertical" >
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Item Name" />
+
                 <EditText
                     android:id="@+id/txt_item_name"
                     android:layout_width="match_parent"
@@ -31,10 +36,20 @@
                     android:ems="10"
                     android:hint="Item Name"/>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Item Type" />
+
                 <Spinner
                     android:id="@+id/spinner_item_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Release Date" />
 
                 <EditText
                     android:id="@+id/txt_release_date"
@@ -43,12 +58,17 @@
                     android:ems="10"
                     android:hint="MM/DD/YYYY"/>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Purchase Price" />
+
                 <EditText
                     android:id="@+id/txt_purchase_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="Purchase Price"/>
+                    android:hint="$0.00"/>
 
             </LinearLayout>
 

@@ -49,11 +49,17 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public CollectionItem getItem(int id) {
         //TODO: this
+        //TODO: use safe sql
+        //TODO: use try catch around date conversion maybe
         return new PutterCover();
     }
 
     public void deleteItem(int id) {
         //TODO: this
+    }
+
+    public void saveItem(CollectionItem collectionItem) {
+        //TODO: use safe sql
     }
 
 }
