@@ -1,5 +1,6 @@
 package com.chrisshelley.ctrepublic.models;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public abstract class CollectionItem {

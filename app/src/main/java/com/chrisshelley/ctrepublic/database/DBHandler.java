@@ -8,7 +8,11 @@ import com.chrisshelley.ctrepublic.models.CollectionItem;
 import com.chrisshelley.ctrepublic.models.PutterCover;
 import com.chrisshelley.ctrepublic.models.WoodCover;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class DBHandler extends SQLiteOpenHelper {
     private static final int VERSION = 1;
@@ -37,6 +41,14 @@ public class DBHandler extends SQLiteOpenHelper {
         //TODO: this
         PutterCover pc1 = new PutterCover();
         pc1.setName("Putter Cover 1");
+        pc1.setNotes("Yo, Notes Go HERE");
+        pc1.setPurchasePrice(159.99);
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+        try {
+            pc1.setReleaseDate(formatter.parse("10/09/2019"));
+        } catch (ParseException e) {
+            //pass
+        }
         PutterCover pc2 = new PutterCover();
         pc2.setName("Putter Cover 2");
         WoodCover wc1 = new WoodCover();

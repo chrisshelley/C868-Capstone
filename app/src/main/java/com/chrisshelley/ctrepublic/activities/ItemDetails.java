@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -22,6 +23,8 @@ public class ItemDetails extends AppCompatActivity {
     private EditText mItemName;
     private EditText mReleaseDate;
     private EditText mPurchasePrice;
+    private EditText mNotes;
+    private Button mSaveButton;
     private Spinner mItemType;
 
     @Override
@@ -34,8 +37,10 @@ public class ItemDetails extends AppCompatActivity {
         setTitle("Item Details");
 
         mItemName = (EditText) findViewById(R.id.txt_item_name);
+        mItemName.setText(mItem.getName());
 
         mReleaseDate = (EditText) findViewById(R.id.txt_release_date);
+        mReleaseDate.setText(mItem.getReleaseDate().toString());
         mReleaseDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -52,8 +57,21 @@ public class ItemDetails extends AppCompatActivity {
         });
 
         mPurchasePrice = (EditText) findViewById(R.id.txt_purchase_price);
+        mPurchasePrice.setText(mItem.getPurchasePrice().toString());
 
         mItemType = (Spinner) findViewById(R.id.spinner_item_type);
+        //TODO: Set choices
+
+        mSaveButton = (Button) findViewById(R.id.btn_save_item);
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Validate then save
+            }
+        });
+
+        mNotes = (EditText) findViewById(R.id.txt_notes);
+        mNotes.setText(mItem.getName());
     }
 
     @Override

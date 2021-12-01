@@ -10,91 +10,123 @@
         android:id="@+id/layout_scroll_view"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/left_side"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:orientation="vertical" >
+                android:orientation="horizontal" >
 
-                <TextView
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:id="@+id/left_side"
                     android:layout_height="wrap_content"
-                    android:text="Item Name" />
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
 
-                <EditText
-                    android:id="@+id/txt_item_name"
-                    android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Item Name"
+                        android:textSize="20sp" />
+
+                    <EditText
+                        android:id="@+id/txt_item_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="Name"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Item Type"
+                        android:textSize="20sp" />
+
+                    <Spinner
+                        android:id="@+id/spinner_item_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Release Date"
+                        android:textSize="20sp" />
+
+                    <EditText
+                        android:id="@+id/txt_release_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="MM/DD/YYYY"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Purchase Price"
+                        android:textSize="20sp" />
+
+                    <EditText
+                        android:id="@+id/txt_purchase_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="$0.00"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/right_side"
                     android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="Item Name"/>
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Item Type" />
+                    <ImageView
+                        android:id="@+id/image_item_featured"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
 
-                <Spinner
-                    android:id="@+id/spinner_item_type"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Release Date" />
-
-                <EditText
-                    android:id="@+id/txt_release_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="MM/DD/YYYY"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Purchase Price" />
-
-                <EditText
-                    android:id="@+id/txt_purchase_price"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="$0.00"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/right_side"
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:orientation="vertical" >
-
-                <ImageView
-                    android:id="@+id/image_item_featured"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/course_notes"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_save_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:text="Save"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:hint="Notes"
-            android:gravity="top"
-            android:inputType="textMultiLine"/>
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/txt_notes"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:gravity="top"
+                android:hint="Notes"
+                android:inputType="textMultiLine" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
