@@ -13,6 +13,8 @@ public abstract class CollectionItem {
     private String mDescription;
     private String mNotes;
 
+    abstract String[] getSubtypeChoices();
+
     public Integer getID() { return mID; }
 
     public void setID(Integer id) { mID = id; }

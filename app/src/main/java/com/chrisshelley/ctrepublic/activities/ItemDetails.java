@@ -5,19 +5,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chrisshelley.ctrepublic.R;
 import com.chrisshelley.ctrepublic.database.DBHandler;
 import com.chrisshelley.ctrepublic.models.CTRepublic;
 import com.chrisshelley.ctrepublic.models.CollectionItem;
+import com.google.android.material.snackbar.Snackbar;
 
 public class ItemDetails extends AppCompatActivity {
     private DBHandler mDBHandler;
@@ -28,10 +32,9 @@ public class ItemDetails extends AppCompatActivity {
     private EditText mNotes;
     private Button mSaveButton;
     private Spinner mItemType;
+    private Spinner mItemSubType;
     private TextView mItemNameErrorMessage;
     private TextView mPurchasePriceErrorMessage;
-    private int defaultItemNameErrorMessageHeight;
-    private int defaultPurchasePriceErrorMessageHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,25 +42,22 @@ public class ItemDetails extends AppCompatActivity {
         setContentView(R.layout.activity_item_details);
 
         mDBHandler = CTRepublic.getInstance().getDBHandler(this);
+        int itemID = getIntent().getIntExtra(CTRepublic.ITEM_ID, CTRepublic.NO_DATABASE_ID);
+        mItem = mDBHandler.getItem(itemID);
 
         setTitle("Item Details");
 
         mItemName = (EditText) findViewById(R.id.txt_item_name);
-        //mItemName.setText(mItem.getName());
 
         mItemNameErrorMessage = (TextView) findViewById(R.id.txt_item_name_error);
         mItemNameErrorMessage.setTextColor(Color.RED);
         mItemNameErrorMessage.setVisibility(View.INVISIBLE);
-        defaultItemNameErrorMessageHeight = mItemNameErrorMessage.getHeight();
-        mItemNameErrorMessage.setHeight(0);
+
         mPurchasePriceErrorMessage = (TextView) findViewById(R.id.txt_purchase_price_error);
         mPurchasePriceErrorMessage.setTextColor(Color.RED);
         mPurchasePriceErrorMessage.setVisibility(View.INVISIBLE);
-        defaultPurchasePriceErrorMessageHeight = mPurchasePriceErrorMessage.getHeight();
-        mPurchasePriceErrorMessage.setHeight(0);
 
         mReleaseDate = (EditText) findViewById(R.id.txt_release_date);
-        //mReleaseDate.setText(mItem.getReleaseDate().toString());
         mReleaseDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -74,10 +74,17 @@ public class ItemDetails extends AppCompatActivity {
         });
 
         mPurchasePrice = (EditText) findViewById(R.id.txt_purchase_price);
-        //mPurchasePrice.setText(mItem.getPurchasePrice().toString());
 
         mItemType = (Spinner) findViewById(R.id.spinner_item_type);
-        //TODO: Set choices
+        ArrayAdapter<String> optionsTypeAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, CTRepublic.getTypeChoices());
+        optionsTypeAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        mItemType.setAdapter(optionsTypeAdapter);
+        //TODO: Options set on selection
+
+        mItemSubType = (Spinner) findViewById(R.id.spinner_item_subtype);
+        ArrayAdapter<String> optionsSubTypeAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, CTRepublic.getDefaultSubTypeChoices());
+        optionsSubTypeAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        mItemSubType.setAdapter(optionsSubTypeAdapter);
 
         mSaveButton = (Button) findViewById(R.id.btn_save_item);
         mSaveButton.setOnClickListener(new View.OnClickListener() {
@@ -89,28 +96,38 @@ public class ItemDetails extends AppCompatActivity {
                 if (mItemName.getText().length() == 0) {
                     passedValidation = false;
                     mItemNameErrorMessage.setVisibility(View.VISIBLE);
-                    mItemNameErrorMessage.setHeight(defaultItemNameErrorMessageHeight);
                     //TODO: Display error message
                 } else {
                     //TODO: Remove error message
+                    mItemNameErrorMessage.setVisibility(View.INVISIBLE);
                 }
                 // price is required
                 if (mPurchasePrice.getText().length() == 0) {
                     passedValidation = false;
                     mPurchasePriceErrorMessage.setVisibility(View.VISIBLE);
-                    mPurchasePriceErrorMessage.setHeight(defaultPurchasePriceErrorMessageHeight);
                     //TODO: Display error message
                 } else {
                     // Remove error message
+                    mPurchasePriceErrorMessage.setVisibility(View.INVISIBLE);
                 }
                 if (passedValidation) {
                     mDBHandler.saveItem(mItem);
+                } else {
+                    String errorText = "Please address the required fields before item can be saved.";
+                    Toast toast = Toast.makeText(getApplicationContext(), errorText, Toast.LENGTH_LONG);
+                    toast.show();
                 }
             }
         });
 
         mNotes = (EditText) findViewById(R.id.txt_notes);
-        //mNotes.setText(mItem.getName());
+
+        if (mItem != null) {
+            mPurchasePrice.setText(mItem.getPurchasePrice().toString());
+            mReleaseDate.setText(mItem.getReleaseDate().toString());
+            mItemName.setText(mItem.getName());
+            mNotes.setText(mItem.getName());
+        }
     }
 
     @Override

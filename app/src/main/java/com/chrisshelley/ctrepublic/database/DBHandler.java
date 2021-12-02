@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.chrisshelley.ctrepublic.models.CTRepublic;
 import com.chrisshelley.ctrepublic.models.CollectionItem;
 import com.chrisshelley.ctrepublic.models.PutterCover;
 import com.chrisshelley.ctrepublic.models.WoodCover;
@@ -40,6 +41,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ArrayList<CollectionItem> collection = new ArrayList<>();
         //TODO: this
         PutterCover pc1 = new PutterCover();
+        pc1.setID(1);
         pc1.setName("Putter Cover 1");
         pc1.setNotes("Yo, Notes Go HERE");
         pc1.setPurchasePrice(159.99);
@@ -50,9 +52,11 @@ public class DBHandler extends SQLiteOpenHelper {
             //pass
         }
         PutterCover pc2 = new PutterCover();
+        pc2.setID(2);
         pc2.setName("Putter Cover 2");
         WoodCover wc1 = new WoodCover();
         wc1.setName("Wood Cover 1");
+        wc1.setID(3);
         collection.add(pc1);
         collection.add(pc2);
         collection.add(wc1);
@@ -63,7 +67,21 @@ public class DBHandler extends SQLiteOpenHelper {
         //TODO: this
         //TODO: use safe sql
         //TODO: use try catch around date conversion maybe
-        return new PutterCover();
+        if (id == CTRepublic.NO_DATABASE_ID) {
+            return null;
+        }
+        PutterCover pc1 = new PutterCover();
+        pc1.setID(1);
+        pc1.setName("Putter Cover 1");
+        pc1.setNotes("Yo, Notes Go HERE");
+        pc1.setPurchasePrice(159.99);
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+        try {
+            pc1.setReleaseDate(formatter.parse("10/09/2019"));
+        } catch (ParseException e) {
+            //pass
+        }
+        return pc1;
     }
 
     public void deleteItem(int id) {

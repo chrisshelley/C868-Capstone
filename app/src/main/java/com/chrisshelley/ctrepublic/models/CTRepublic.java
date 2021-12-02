@@ -21,9 +21,20 @@ public class CTRepublic {
     public static final String SHARED_PREFERENCES = "CTRepublic_PREFERENCES";
     public static final String CREATE_SAMPLE_DATA = "CREATE_SAMPLE_DATA";
     public static final String ITEM_ID = "ITEM_ID";
+    public static final String EMPTY_CHOICE = "----------";
     public static final String TYPE_PUTTER_COVER = "Headcover - Putter";
     public static final String TYPE_WOOD_COVER = "Headcover - Wood";
     public static final String TYPE_ACCESSORY = "Accessory";
+    public static final String SUBTYPE_BLADE = "Blade";
+    public static final String SUBTYPE_MIDMALLET = "Mid Mallet";
+    public static final String SUBTYPE_MIDROUND = "Mid Round";
+    public static final String SUBTYPE_DRIVER = "Driver";
+    public static final String SUBTYPE_FAIRWAY = "Fairway";
+    public static final String SUBTYPE_HYBRID = "Hybrid";
+    public static final String SUBTYPE_CARTBAG = "Cart Bag";
+    public static final String SUBTYPE_STANDBAG = "Stand Bag";
+    public static final String SUBTYPE_PIVOTTOOL = "Pivot Tool";
+    public static final String SUBTYPE_TOWEL = "Towel";
 
     /*
     Design and develop a fully functional software application that addresses your identified business problem or organizational need. Include each of the following attributes as they are the minimum required elements for the application:
@@ -33,7 +44,7 @@ public class CTRepublic {
     DONE a database component with the functionality to securely add, modify, and delete the data
     TODO: ability to generate reports with multiple columns, multiple rows, date-time stamp, and title
     TODO: exception controls - Use Try Catches
-    TODO: validation functionality - Validate form fields
+    DONE: validation functionality - Validate form fields
     TODO: industry appropriate security features - SAFE SQL
     DONE: design elements that make the application scalable
     DONE: a user-friendly, functional GUI
@@ -47,6 +58,21 @@ public class CTRepublic {
             sCTRepublic = new CTRepublic();
         }
         return sCTRepublic;
+    }
+
+    public static String[] getTypeChoices() {
+        String[] choices = new String[]{
+                CTRepublic.EMPTY_CHOICE,
+                CTRepublic.TYPE_PUTTER_COVER,
+                CTRepublic.TYPE_WOOD_COVER,
+                CTRepublic.TYPE_ACCESSORY };
+        return choices;
+    }
+
+    public static String[] getDefaultSubTypeChoices() {
+        String[] choices = new String[]{
+                CTRepublic.EMPTY_CHOICE };
+        return choices;
     }
 
     public DBHandler getDBHandler(Context context) {
