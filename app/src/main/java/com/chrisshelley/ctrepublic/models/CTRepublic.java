@@ -75,6 +75,34 @@ public class CTRepublic {
         return choices;
     }
 
+    public static String[] getAccessorySubTypeChoices() {
+        String[] choices = new String[]{
+                CTRepublic.EMPTY_CHOICE,
+                CTRepublic.SUBTYPE_CARTBAG,
+                CTRepublic.SUBTYPE_STANDBAG,
+                CTRepublic.SUBTYPE_PIVOTTOOL,
+                CTRepublic.SUBTYPE_TOWEL};
+        return choices;
+    }
+
+    public static String[] getPutterSubTypeChoices() {
+        String[] choices = new String[]{
+                CTRepublic.EMPTY_CHOICE,
+                CTRepublic.SUBTYPE_BLADE,
+                CTRepublic.SUBTYPE_MIDMALLET,
+                CTRepublic.SUBTYPE_MIDROUND };
+        return choices;
+    }
+
+    public static String[] getWoodSubTypeChoices() {
+        String[] choices = new String[]{
+                CTRepublic.EMPTY_CHOICE,
+                CTRepublic.SUBTYPE_DRIVER,
+                CTRepublic.SUBTYPE_FAIRWAY,
+                CTRepublic.SUBTYPE_HYBRID };
+        return choices;
+    }
+
     public DBHandler getDBHandler(Context context) {
         if (mDBHandler == null) {
             mDBHandler = new DBHandler(context);

@@ -1,13 +1,11 @@
 package com.chrisshelley.ctrepublic.models;
 
 public class WoodCover extends CollectionItem {
+    private String mItemType = CTRepublic.TYPE_WOOD_COVER;
 
     public String[] getSubtypeChoices() {
-        String[] choices = new String[]{
-                CTRepublic.EMPTY_CHOICE,
-                CTRepublic.SUBTYPE_DRIVER,
-                CTRepublic.SUBTYPE_FAIRWAY,
-                CTRepublic.SUBTYPE_HYBRID };
-        return choices;
+        return CTRepublic.getWoodSubTypeChoices();
     }
+
+    public String getItemType() { return mItemType; }
 }

@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,8 +20,11 @@ import android.widget.Toast;
 
 import com.chrisshelley.ctrepublic.R;
 import com.chrisshelley.ctrepublic.database.DBHandler;
+import com.chrisshelley.ctrepublic.models.Accessory;
 import com.chrisshelley.ctrepublic.models.CTRepublic;
 import com.chrisshelley.ctrepublic.models.CollectionItem;
+import com.chrisshelley.ctrepublic.models.PutterCover;
+import com.chrisshelley.ctrepublic.models.WoodCover;
 import com.google.android.material.snackbar.Snackbar;
 
 public class ItemDetails extends AppCompatActivity {
@@ -76,15 +80,54 @@ public class ItemDetails extends AppCompatActivity {
         mPurchasePrice = (EditText) findViewById(R.id.txt_purchase_price);
 
         mItemType = (Spinner) findViewById(R.id.spinner_item_type);
-        ArrayAdapter<String> optionsTypeAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, CTRepublic.getTypeChoices());
+        String[] typeChoices = CTRepublic.getTypeChoices();
+        ArrayAdapter<String> optionsTypeAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, typeChoices);
         optionsTypeAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         mItemType.setAdapter(optionsTypeAdapter);
-        //TODO: Options set on selection
+        int initialItemTypeSelectionPosition = 0;
+        for (int i = 0; i < typeChoices.length; i++) {
+            if (typeChoices[i].equals(mItem.getItemType())) {
+                initialItemTypeSelectionPosition = i;
+            }
+        }
+        mItemType.setSelection(initialItemTypeSelectionPosition, false);
+        mItemType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (!mItem.getItemType().equals(typeChoices[position])) {
+                    ArrayAdapter<String> optionsAdapter;
+                    if (typeChoices[position].equals(CTRepublic.TYPE_PUTTER_COVER)) {
+                        optionsAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, CTRepublic.getPutterSubTypeChoices());
+                    } else if (typeChoices[position].equals(CTRepublic.TYPE_WOOD_COVER)) {
+                        optionsAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, CTRepublic.getWoodSubTypeChoices());
+                    } else if (typeChoices[position].equals(CTRepublic.TYPE_ACCESSORY)) {
+                        optionsAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, CTRepublic.getAccessorySubTypeChoices());
+                    } else {
+                        optionsAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, CTRepublic.getDefaultSubTypeChoices());
+                    }
+                    optionsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                    mItemSubType.setAdapter(optionsAdapter);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         mItemSubType = (Spinner) findViewById(R.id.spinner_item_subtype);
-        ArrayAdapter<String> optionsSubTypeAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, CTRepublic.getDefaultSubTypeChoices());
+        String[] subTypeChoices = mItem.getSubtypeChoices();
+        ArrayAdapter<String> optionsSubTypeAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, subTypeChoices);
         optionsSubTypeAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         mItemSubType.setAdapter(optionsSubTypeAdapter);
+        int initialItemSubTypeSelectionPosition = 0;
+        for (int i = 0; i < subTypeChoices.length; i++) {
+            if (subTypeChoices[i].equals(mItem.getItemSubtype())) {
+                initialItemSubTypeSelectionPosition = i;
+            }
+        }
+        mItemSubType.setSelection(initialItemSubTypeSelectionPosition, false);
 
         mSaveButton = (Button) findViewById(R.id.btn_save_item);
         mSaveButton.setOnClickListener(new View.OnClickListener() {
@@ -96,21 +139,21 @@ public class ItemDetails extends AppCompatActivity {
                 if (mItemName.getText().length() == 0) {
                     passedValidation = false;
                     mItemNameErrorMessage.setVisibility(View.VISIBLE);
-                    //TODO: Display error message
                 } else {
-                    //TODO: Remove error message
                     mItemNameErrorMessage.setVisibility(View.INVISIBLE);
                 }
                 // price is required
                 if (mPurchasePrice.getText().length() == 0) {
                     passedValidation = false;
                     mPurchasePriceErrorMessage.setVisibility(View.VISIBLE);
-                    //TODO: Display error message
                 } else {
-                    // Remove error message
                     mPurchasePriceErrorMessage.setVisibility(View.INVISIBLE);
                 }
+                //TODO: Type and Sub Type is required
                 if (passedValidation) {
+                    // Because we can change the item type and therefore the class type during
+                    // selection.  We need to recreate the object and then pass it to be saved.
+                    //TODO: This save - Right now nothing in the object has changed
                     mDBHandler.saveItem(mItem);
                 } else {
                     String errorText = "Please address the required fields before item can be saved.";
@@ -124,9 +167,9 @@ public class ItemDetails extends AppCompatActivity {
 
         if (mItem != null) {
             mPurchasePrice.setText(mItem.getPurchasePrice().toString());
-            mReleaseDate.setText(mItem.getReleaseDate().toString());
+            mReleaseDate.setText(mItem.getReleaseDateString());
             mItemName.setText(mItem.getName());
-            mNotes.setText(mItem.getName());
+            mNotes.setText(mItem.getNotes());
         }
     }
 
@@ -152,7 +195,6 @@ public class ItemDetails extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_delete_item:
-                //TODO: This
                 mDBHandler.deleteItem(mItem.getID());
                 CTRepublic.navigateTo(this, CollectionList.class);
                 return true;

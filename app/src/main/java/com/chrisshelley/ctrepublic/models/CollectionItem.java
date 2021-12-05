@@ -6,14 +6,16 @@ import java.util.Date;
 public abstract class CollectionItem {
     private Integer mID;
     private String mName;
-    private Integer mItemType;
-    private Integer mItemSubtype;
+    private String mItemSubtype;
     private Date mReleaseDate;
     private Double mPurchasePrice;
-    private String mDescription;
     private String mNotes;
 
-    abstract String[] getSubtypeChoices();
+    CollectionItem() {
+        mID = CTRepublic.NO_DATABASE_ID;
+    }
+
+    public abstract String[] getSubtypeChoices();
 
     public Integer getID() { return mID; }
 
@@ -23,25 +25,30 @@ public abstract class CollectionItem {
 
     public void setName(String name) { mName = name; }
 
-    public Integer getItemType() { return mItemType; }
+    public abstract String getItemType();
 
-    public void setItemType(Integer coverType) { mItemType = coverType; }
+    public String getItemSubtype() { return mItemSubtype; }
 
-    public Integer getItemSubtype() { return mItemSubtype; }
-
-    public void setItemSubtype(Integer subtype) { mItemSubtype = subtype; }
+    public void setItemSubtype(String subtype) { mItemSubtype = subtype; }
 
     public Date getReleaseDate() { return mReleaseDate; }
 
+    public String getReleaseDateString() {
+        //TODO: Convert string to date
+        //TODO: use try catch around date conversion maybe
+        return "";
+    }
+
     public void setReleaseDate(Date releaseDate) { mReleaseDate = releaseDate; }
+
+    public void setReleaseDate(String releaseDate) {
+        //TODO: Convert string to date
+        //TODO: use try catch around date conversion maybe
+    }
 
     public Double getPurchasePrice() { return mPurchasePrice; }
 
     public void setPurchasePrice(Double purchasePrice) { mPurchasePrice = purchasePrice; }
-
-    public String getDescription() { return mDescription; }
-
-    public void setDescription(String description) { mDescription = description; }
 
     public String getNotes() { return mNotes; }
 

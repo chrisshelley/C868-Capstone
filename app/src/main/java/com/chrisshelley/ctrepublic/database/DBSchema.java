@@ -11,7 +11,6 @@ public class DBSchema {
             public static final String ITEM_SUBTYPE = "item_subtype";
             public static final String RELEASE_DATE = "release_date";
             public static final String PURCHASE_PRICE = "purchase_price";
-            public static final String DESCRIPTION = "description";
             public static final String NOTES = "notes";
         }
     }
