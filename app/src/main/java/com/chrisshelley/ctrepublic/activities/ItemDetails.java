@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +30,8 @@ import com.chrisshelley.ctrepublic.models.PutterCover;
 import com.chrisshelley.ctrepublic.models.WoodCover;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.net.URI;
+
 public class ItemDetails extends AppCompatActivity {
     private DBHandler mDBHandler;
     private CollectionItem mItem;
@@ -34,7 +39,6 @@ public class ItemDetails extends AppCompatActivity {
     private EditText mReleaseDate;
     private EditText mPurchasePrice;
     private EditText mNotes;
-    private Button mSaveButton;
     private Button mNewImageButton;
     private Spinner mItemType;
     private Spinner mItemSubType;
@@ -45,6 +49,8 @@ public class ItemDetails extends AppCompatActivity {
     private String mCurrentItemType;
     private String mCurrentItemSubType;
     private Integer mItemID;
+    private ImageView mFeaturedImage;
+    private Uri mFeaturedImageURI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,11 +178,15 @@ public class ItemDetails extends AppCompatActivity {
             }
         });
 
+        mFeaturedImage = (ImageView) findViewById(R.id.image_item_featured);
+        //TODO: Set image if one exists
+
         mNewImageButton = (Button) findViewById(R.id.btn_new_image);
         mNewImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Set images
+                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                startActivityForResult(gallery, CTRepublic.PICK_IMAGE);
             }
         });
 
@@ -187,6 +197,7 @@ public class ItemDetails extends AppCompatActivity {
             mReleaseDate.setText(mItem.getReleaseDateString());
             mItemName.setText(mItem.getName());
             mNotes.setText(mItem.getNotes());
+            mFeaturedImage.setImageURI(mItem.getFeaturedImageURI());
         }
     }
 
@@ -221,6 +232,15 @@ public class ItemDetails extends AppCompatActivity {
                 saveItem();
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == CTRepublic.PICK_IMAGE){
+            mFeaturedImageURI = data.getData();
+            mFeaturedImage.setImageURI(mFeaturedImageURI);
         }
     }
 
@@ -265,6 +285,7 @@ public class ItemDetails extends AppCompatActivity {
             mItem.setPurchasePrice(mPurchasePrice.getText().toString());
             mItem.setReleaseDate(mReleaseDate.getText().toString());
             mItem.setItemSubtype(mItemSubType.getSelectedItem().toString());
+            mItem.setFeaturedImageURI(mFeaturedImageURI);
             mDBHandler.saveItem(mItem);
             String saveMessage = "Item has been saved.";
             Toast toast = Toast.makeText(getApplicationContext(), saveMessage, Toast.LENGTH_LONG);

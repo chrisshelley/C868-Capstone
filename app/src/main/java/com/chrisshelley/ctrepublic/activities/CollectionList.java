@@ -93,7 +93,7 @@ public class CollectionList extends AppCompatActivity {
             this.mItemName = itemView.findViewById(R.id.item_name);
             this.mItemType = itemView.findViewById(R.id.item_type);
             this.mItemSubType = itemView.findViewById(R.id.item_subtype);
-            this.mFeaturedImage = itemView.findViewById(R.id.image_item_featured);
+            this.mFeaturedImage = itemView.findViewById(R.id.item_featured_image);
         }
 
         public void bind(CollectionItem collectionItem) {
@@ -101,6 +101,7 @@ public class CollectionList extends AppCompatActivity {
             mItemName.setText(mCollectionItem.getName());
             mItemType.setText(mCollectionItem.getItemType());
             mItemSubType.setText(mCollectionItem.getItemSubtype());
+            mFeaturedImage.setImageURI(mCollectionItem.getFeaturedImageURI());
         }
 
         @Override

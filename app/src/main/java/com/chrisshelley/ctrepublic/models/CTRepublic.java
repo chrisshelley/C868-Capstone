@@ -35,6 +35,7 @@ public class CTRepublic {
     public static final String SUBTYPE_STANDBAG = "Stand Bag";
     public static final String SUBTYPE_PIVOTTOOL = "Pivot Tool";
     public static final String SUBTYPE_TOWEL = "Towel";
+    public static final Integer PICK_IMAGE = 100;
 
     /*
     Design and develop a fully functional software application that addresses your identified business problem or organizational need. Include each of the following attributes as they are the minimum required elements for the application:
@@ -43,11 +44,11 @@ public class CTRepublic {
     TODO: search functionality with multiple row results and displays - Custom Search
     DONE a database component with the functionality to securely add, modify, and delete the data
     TODO: ability to generate reports with multiple columns, multiple rows, date-time stamp, and title
-    TODO: exception controls - Use Try Catches
+    DONE: exception controls - Use Try Catches
     DONE: validation functionality - Validate form fields
     TODO: industry appropriate security features - SAFE SQL
-    DONE: design elements that make the application scalable
-    DONE: a user-friendly, functional GUI
+    DONE: design elements that make the application scalable - Recycle view
+    DONE: a user-friendly, functional GUI - Intuitive UI design
     */
 
     private static CTRepublic sCTRepublic;

@@ -14,7 +14,36 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Item Name"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/txt_item_name_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="*Required"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="10sp"/>
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/txt_item_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Name"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -27,34 +56,6 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:orientation="vertical" >
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Item Name"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:id="@+id/txt_item_name_error"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="*Required"
-                            android:layout_marginLeft="5dp"
-                            android:textSize="10sp"/>
-
-                    </LinearLayout>
-
-                    <EditText
-                        android:id="@+id/txt_item_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Name"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -169,7 +170,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_weight="1"
-                            app:srcCompat="@mipmap/ctcovers" />
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@mipmap/crown_logo" />
 
                         <Button
                             android:id="@+id/btn_new_image"

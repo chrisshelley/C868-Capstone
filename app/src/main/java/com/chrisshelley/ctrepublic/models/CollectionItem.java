@@ -1,5 +1,7 @@
 package com.chrisshelley.ctrepublic.models;
 
+import android.net.Uri;
+
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -10,6 +12,7 @@ public abstract class CollectionItem {
     private Date mReleaseDate;
     private Double mPurchasePrice;
     private String mNotes;
+    private Uri mFeaturedImageURI;
 
     CollectionItem() {
         mID = CTRepublic.NO_DATABASE_ID;
@@ -24,6 +27,24 @@ public abstract class CollectionItem {
     public String getName() { return mName; }
 
     public void setName(String name) { mName = name; }
+
+    public void setFeaturedImageURI(String uri) {
+        if (uri != null) {
+            mFeaturedImageURI = Uri.parse(uri);
+        }
+    }
+
+    public void setFeaturedImageURI(Uri uri) { mFeaturedImageURI = uri; }
+
+    public String getFeaturedImageURIString() {
+        if (mFeaturedImageURI == null) {
+            return null;
+        } else {
+            return mFeaturedImageURI.toString();
+        }
+    }
+
+    public Uri getFeaturedImageURI() { return mFeaturedImageURI; }
 
     public abstract String getItemType();
 

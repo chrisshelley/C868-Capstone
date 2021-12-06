@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.chrisshelley.ctrepublic.R;
 import com.chrisshelley.ctrepublic.models.Accessory;
 import com.chrisshelley.ctrepublic.models.CTRepublic;
 import com.chrisshelley.ctrepublic.models.CollectionItem;
@@ -22,8 +23,11 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     private static final String DATABASE_NAME = "CTRepublic.db";
 
+    private Context mContext;
+
     public DBHandler(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
+        mContext = context;
     }
 
     @Override
@@ -35,15 +39,10 @@ public class DBHandler extends SQLiteOpenHelper {
                 + DBSchema.CollectionTable.Cols.ITEM_SUBTYPE + " TEXT,"
                 + DBSchema.CollectionTable.Cols.RELEASE_DATE + " TEXT,"
                 + DBSchema.CollectionTable.Cols.PURCHASE_PRICE + " REAL,"
+                + DBSchema.CollectionTable.Cols.FEATURED_IMAGE_URI + " TEXT,"
                 + DBSchema.CollectionTable.Cols.NOTES + " TEXT)";
 
-        String create_images_table = "CREATE TABLE " + DBSchema.ImagesTable.NAME + " ("
-                + DBSchema.ImagesTable.Cols.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + DBSchema.ImagesTable.Cols.ITEM_ID + " INTEGER,"
-                + DBSchema.ImagesTable.Cols.IMAGE_PATH + " TEXT)";
-
         db.execSQL(create_collection_table);
-        db.execSQL(create_images_table);
     }
 
     @Override
@@ -54,45 +53,50 @@ public class DBHandler extends SQLiteOpenHelper {
     public void create_sample_data() {
         // Create 2 putter covers
         PutterCover pc1 = new PutterCover();
-        pc1.setName("Putter Cover 1");
+        pc1.setName("2021 US Open");
         pc1.setItemSubtype(CTRepublic.SUBTYPE_BLADE);
-        pc1.setReleaseDate("10/09/2018");
+        pc1.setReleaseDate("06/14/2021");
         pc1.setPurchasePrice(89.99);
         pc1.setNotes("One of my favorites.");
+        pc1.setFeaturedImageURI("android.resource://" + mContext.getPackageName() + "/" + R.mipmap.usopen_2021_putter_blade);
         saveItem(pc1);
 
         PutterCover pc2 = new PutterCover();
-        pc2.setName("Putter Cover 2");
+        pc2.setName("2017 Tar Heel");
         pc2.setItemSubtype(CTRepublic.SUBTYPE_MIDMALLET);
-        pc2.setReleaseDate("02/14/2020");
+        pc2.setReleaseDate("08/08/2017");
         pc2.setPurchasePrice(169.00);
         pc2.setNotes("Bought from user Milton Vanderslice");
+        pc2.setFeaturedImageURI("android.resource://" + mContext.getPackageName() + "/" + R.mipmap.tarheel_2017_putter_blade);
         saveItem(pc2);
 
         // Create 1 Wood cover
         WoodCover wc1 = new WoodCover();
-        wc1.setName("Wood Cover 1");
+        wc1.setName("2016 72 and Sunny");
         wc1.setItemSubtype(CTRepublic.SUBTYPE_FAIRWAY);
-        wc1.setReleaseDate("01/01/200");
+        wc1.setReleaseDate("08/23/2016");
         wc1.setPurchasePrice(129.99);
         wc1.setNotes("Traded for my Masters release hybrid");
+        wc1.setFeaturedImageURI("android.resource://" + mContext.getPackageName() + "/" + R.mipmap.sunny_2016_wood);
         saveItem(wc1);
 
         // Create 2 Accessories
         Accessory acc1 = new Accessory();
-        acc1.setName("Accessory 1");
+        acc1.setName("2021 Dancing Pin Flags");
         acc1.setItemSubtype(CTRepublic.SUBTYPE_PIVOTTOOL);
-        acc1.setReleaseDate("08/15/2011");
+        acc1.setReleaseDate("08/06/2021");
         acc1.setPurchasePrice(65.99);
         acc1.setNotes("Japan Release");
+        acc1.setFeaturedImageURI("android.resource://" + mContext.getPackageName() + "/" + R.mipmap.pinflags_2021_pivot);
         saveItem(acc1);
 
         Accessory acc2 = new Accessory();
-        acc2.setName("Accessory 2");
-        acc2.setItemSubtype(CTRepublic.SUBTYPE_STANDBAG);
-        acc2.setReleaseDate("06/30/2008");
+        acc2.setName("2019 Cart Bag - Heather Gray");
+        acc2.setItemSubtype(CTRepublic.SUBTYPE_CARTBAG);
+        acc2.setReleaseDate("06/16/2019");
         acc2.setPurchasePrice(359.99);
         acc2.setNotes("Currently selling for $3200");
+        acc2.setFeaturedImageURI("android.resource://" + mContext.getPackageName() + "/" + R.mipmap.cartbag_heather_grey);
         saveItem(acc2);
     }
 
@@ -111,6 +115,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 collectionItem.setReleaseDate(cursor.getString(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.RELEASE_DATE)));
                 collectionItem.setPurchasePrice(cursor.getDouble(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.PURCHASE_PRICE)));
                 collectionItem.setNotes(cursor.getString(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.NOTES)));
+                collectionItem.setFeaturedImageURI(cursor.getString(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.FEATURED_IMAGE_URI)));
                 collection.add(collectionItem);
             } while (cursor.moveToNext());
         }
@@ -136,6 +141,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 collectionItem.setReleaseDate(cursor.getString(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.RELEASE_DATE)));
                 collectionItem.setPurchasePrice(cursor.getDouble(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.PURCHASE_PRICE)));
                 collectionItem.setNotes(cursor.getString(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.NOTES)));
+                collectionItem.setFeaturedImageURI(cursor.getString(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.FEATURED_IMAGE_URI)));
             } while (cursor.moveToNext());
         }
         db.close();
@@ -146,7 +152,6 @@ public class DBHandler extends SQLiteOpenHelper {
         if (id != CTRepublic.NO_DATABASE_ID) {
             SQLiteDatabase db = this.getWritableDatabase();
             db.delete(DBSchema.CollectionTable.NAME, "id=?", new String[]{Integer.toString(id)});
-            db.delete(DBSchema.ImagesTable.NAME, "id=?", new String[]{Integer.toString(id)});
             db.close();
         }
     }
@@ -161,6 +166,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(DBSchema.CollectionTable.Cols.RELEASE_DATE, collectionItem.getReleaseDateString());
         values.put(DBSchema.CollectionTable.Cols.PURCHASE_PRICE, collectionItem.getPurchasePrice());
         values.put(DBSchema.CollectionTable.Cols.NOTES, collectionItem.getNotes());
+        values.put(DBSchema.CollectionTable.Cols.FEATURED_IMAGE_URI, collectionItem.getFeaturedImageURIString());
         if (collectionItem.getID() == CTRepublic.NO_DATABASE_ID) {
             long id = db.insert(DBSchema.CollectionTable.NAME, null, values);
             collectionItem.setID((int)id);
