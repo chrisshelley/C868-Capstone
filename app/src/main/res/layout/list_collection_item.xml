@@ -23,19 +23,29 @@
                     android:id="@+id/item_featured_image"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@mipmap/logo" />
+                    app:srcCompat="@mipmap/crown_logo" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/item_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Term Name" />
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/item_type"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/item_subtype"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 

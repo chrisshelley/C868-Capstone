@@ -35,10 +35,16 @@ public class ItemDetails extends AppCompatActivity {
     private EditText mPurchasePrice;
     private EditText mNotes;
     private Button mSaveButton;
+    private Button mNewImageButton;
     private Spinner mItemType;
     private Spinner mItemSubType;
     private TextView mItemNameErrorMessage;
     private TextView mPurchasePriceErrorMessage;
+    private TextView mItemTypeErrorMessage;
+    private TextView mItemSubTypeErrorMessage;
+    private String mCurrentItemType;
+    private String mCurrentItemSubType;
+    private Integer mItemID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +52,16 @@ public class ItemDetails extends AppCompatActivity {
         setContentView(R.layout.activity_item_details);
 
         mDBHandler = CTRepublic.getInstance().getDBHandler(this);
-        int itemID = getIntent().getIntExtra(CTRepublic.ITEM_ID, CTRepublic.NO_DATABASE_ID);
-        mItem = mDBHandler.getItem(itemID);
+        mItemID = getIntent().getIntExtra(CTRepublic.ITEM_ID, CTRepublic.NO_DATABASE_ID);
+        mItem = mDBHandler.getItem(mItemID);
+
+        if (mItem == null) {
+            mCurrentItemType = CTRepublic.EMPTY_CHOICE;
+            mCurrentItemSubType = CTRepublic.EMPTY_CHOICE;
+        } else {
+            mCurrentItemType = mItem.getItemType();
+            mCurrentItemSubType = mItem.getItemSubtype();
+        }
 
         setTitle("Item Details");
 
@@ -60,6 +74,14 @@ public class ItemDetails extends AppCompatActivity {
         mPurchasePriceErrorMessage = (TextView) findViewById(R.id.txt_purchase_price_error);
         mPurchasePriceErrorMessage.setTextColor(Color.RED);
         mPurchasePriceErrorMessage.setVisibility(View.INVISIBLE);
+
+        mItemTypeErrorMessage = (TextView) findViewById(R.id.txt_type_error);
+        mItemTypeErrorMessage.setTextColor(Color.RED);
+        mItemTypeErrorMessage.setVisibility(View.INVISIBLE);
+
+        mItemSubTypeErrorMessage = (TextView) findViewById(R.id.txt_subtype_error);
+        mItemSubTypeErrorMessage.setTextColor(Color.RED);
+        mItemSubTypeErrorMessage.setVisibility(View.INVISIBLE);
 
         mReleaseDate = (EditText) findViewById(R.id.txt_release_date);
         mReleaseDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -86,7 +108,7 @@ public class ItemDetails extends AppCompatActivity {
         mItemType.setAdapter(optionsTypeAdapter);
         int initialItemTypeSelectionPosition = 0;
         for (int i = 0; i < typeChoices.length; i++) {
-            if (typeChoices[i].equals(mItem.getItemType())) {
+            if (typeChoices[i].equals(mCurrentItemType)) {
                 initialItemTypeSelectionPosition = i;
             }
         }
@@ -94,7 +116,7 @@ public class ItemDetails extends AppCompatActivity {
         mItemType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (!mItem.getItemType().equals(typeChoices[position])) {
+                if (!mCurrentItemType.equals(typeChoices[position])) {
                     ArrayAdapter<String> optionsAdapter;
                     if (typeChoices[position].equals(CTRepublic.TYPE_PUTTER_COVER)) {
                         optionsAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, CTRepublic.getPutterSubTypeChoices());
@@ -105,6 +127,7 @@ public class ItemDetails extends AppCompatActivity {
                     } else {
                         optionsAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, CTRepublic.getDefaultSubTypeChoices());
                     }
+                    mCurrentItemType = typeChoices[position];
                     optionsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                     mItemSubType.setAdapter(optionsAdapter);
                 }
@@ -117,56 +140,50 @@ public class ItemDetails extends AppCompatActivity {
         });
 
         mItemSubType = (Spinner) findViewById(R.id.spinner_item_subtype);
-        String[] subTypeChoices = mItem.getSubtypeChoices();
+        String[] subTypeChoices;
+        if (mItem == null) {
+            subTypeChoices = CTRepublic.getDefaultSubTypeChoices();
+        } else {
+            subTypeChoices = mItem.getSubtypeChoices();
+        }
         ArrayAdapter<String> optionsSubTypeAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, subTypeChoices);
         optionsSubTypeAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         mItemSubType.setAdapter(optionsSubTypeAdapter);
         int initialItemSubTypeSelectionPosition = 0;
         for (int i = 0; i < subTypeChoices.length; i++) {
-            if (subTypeChoices[i].equals(mItem.getItemSubtype())) {
+            if (subTypeChoices[i].equals(mCurrentItemSubType)) {
                 initialItemSubTypeSelectionPosition = i;
             }
         }
         mItemSubType.setSelection(initialItemSubTypeSelectionPosition, false);
+        mItemSubType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                try {
+                    mCurrentItemSubType = subTypeChoices[position];
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    // pass
+                }
+            }
 
-        mSaveButton = (Button) findViewById(R.id.btn_save_item);
-        mSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        mNewImageButton = (Button) findViewById(R.id.btn_new_image);
+        mNewImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean passedValidation = true;
-                // TODO: Validate then save
-                // Name is required
-                if (mItemName.getText().length() == 0) {
-                    passedValidation = false;
-                    mItemNameErrorMessage.setVisibility(View.VISIBLE);
-                } else {
-                    mItemNameErrorMessage.setVisibility(View.INVISIBLE);
-                }
-                // price is required
-                if (mPurchasePrice.getText().length() == 0) {
-                    passedValidation = false;
-                    mPurchasePriceErrorMessage.setVisibility(View.VISIBLE);
-                } else {
-                    mPurchasePriceErrorMessage.setVisibility(View.INVISIBLE);
-                }
-                //TODO: Type and Sub Type is required
-                if (passedValidation) {
-                    // Because we can change the item type and therefore the class type during
-                    // selection.  We need to recreate the object and then pass it to be saved.
-                    //TODO: This save - Right now nothing in the object has changed
-                    mDBHandler.saveItem(mItem);
-                } else {
-                    String errorText = "Please address the required fields before item can be saved.";
-                    Toast toast = Toast.makeText(getApplicationContext(), errorText, Toast.LENGTH_LONG);
-                    toast.show();
-                }
+                //TODO: Set images
             }
         });
 
         mNotes = (EditText) findViewById(R.id.txt_notes);
 
         if (mItem != null) {
-            mPurchasePrice.setText(mItem.getPurchasePrice().toString());
+            mPurchasePrice.setText(String.format("%.2f", mItem.getPurchasePrice()));
             mReleaseDate.setText(mItem.getReleaseDateString());
             mItemName.setText(mItem.getName());
             mNotes.setText(mItem.getNotes());
@@ -195,11 +212,67 @@ public class ItemDetails extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_delete_item:
-                mDBHandler.deleteItem(mItem.getID());
+                if (mItem != null) {
+                    mDBHandler.deleteItem(mItem.getID());
+                }
                 CTRepublic.navigateTo(this, CollectionList.class);
                 return true;
+            case R.id.menu_save_item:
+                saveItem();
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void saveItem() {
+        boolean passedValidation = true;
+        // Name is required
+        if (mItemName.getText().length() == 0) {
+            passedValidation = false;
+            mItemNameErrorMessage.setVisibility(View.VISIBLE);
+        } else {
+            mItemNameErrorMessage.setVisibility(View.INVISIBLE);
+        }
+        // price is required
+        if (mPurchasePrice.getText().length() == 0) {
+            passedValidation = false;
+            mPurchasePriceErrorMessage.setVisibility(View.VISIBLE);
+        } else {
+            mPurchasePriceErrorMessage.setVisibility(View.INVISIBLE);
+        }
+        // type is required
+        if (mItemType.getSelectedItem().toString().equals(CTRepublic.EMPTY_CHOICE)){
+            passedValidation = false;
+            mItemTypeErrorMessage.setVisibility(View.VISIBLE);
+        } else {
+            mItemTypeErrorMessage.setVisibility(View.INVISIBLE);
+        }
+        // subtype is required
+        if (mItemSubType.getSelectedItem().toString().equals(CTRepublic.EMPTY_CHOICE)){
+            passedValidation = false;
+            mItemSubTypeErrorMessage.setVisibility(View.VISIBLE);
+        } else {
+            mItemSubTypeErrorMessage.setVisibility(View.INVISIBLE);
+        }
+
+        if (passedValidation) {
+            // Because we can change the item type and therefore the class type during
+            // selection.  We need to recreate the object and then pass it to be saved.
+            mItem = CTRepublic.getCollectionClass(mCurrentItemType);
+            mItem.setID(mItemID);
+            mItem.setName(mItemName.getText().toString());
+            mItem.setNotes(mNotes.getText().toString());
+            mItem.setPurchasePrice(mPurchasePrice.getText().toString());
+            mItem.setReleaseDate(mReleaseDate.getText().toString());
+            mItem.setItemSubtype(mItemSubType.getSelectedItem().toString());
+            mDBHandler.saveItem(mItem);
+            String saveMessage = "Item has been saved.";
+            Toast toast = Toast.makeText(getApplicationContext(), saveMessage, Toast.LENGTH_LONG);
+            toast.show();
+        } else {
+            String errorText = "Please address the required fields before item can be saved.";
+            Toast toast = Toast.makeText(getApplicationContext(), errorText, Toast.LENGTH_LONG);
+            toast.show();
         }
     }
 }

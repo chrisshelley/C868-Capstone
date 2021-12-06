@@ -104,13 +104,7 @@ public class DBHandler extends SQLiteOpenHelper {
             do {
                 CollectionItem collectionItem;
                 String itemType = cursor.getString(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.ITEM_TYPE));
-                if (itemType.equals(CTRepublic.TYPE_PUTTER_COVER)) {
-                    collectionItem = new PutterCover();
-                } else if (itemType.equals(CTRepublic.TYPE_WOOD_COVER)) {
-                    collectionItem = new WoodCover();
-                } else {
-                    collectionItem = new Accessory();
-                }
+                collectionItem = CTRepublic.getCollectionClass(itemType);
                 collectionItem.setID(cursor.getInt(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.ID)));
                 collectionItem.setName(cursor.getString(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.NAME)));
                 collectionItem.setItemSubtype(cursor.getString(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.ITEM_SUBTYPE)));
@@ -135,13 +129,7 @@ public class DBHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 String itemType = cursor.getString(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.ITEM_TYPE));
-                if (itemType.equals(CTRepublic.TYPE_PUTTER_COVER)) {
-                    collectionItem = new PutterCover();
-                } else if (itemType.equals(CTRepublic.TYPE_WOOD_COVER)) {
-                    collectionItem = new WoodCover();
-                } else {
-                    collectionItem = new Accessory();
-                }
+                collectionItem = CTRepublic.getCollectionClass(itemType);
                 collectionItem.setID(cursor.getInt(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.ID)));
                 collectionItem.setName(cursor.getString(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.NAME)));
                 collectionItem.setItemSubtype(cursor.getString(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.ITEM_SUBTYPE)));
@@ -155,10 +143,12 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     public void deleteItem(int id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(DBSchema.CollectionTable.NAME, "id=?", new String[]{Integer.toString(id)});
-        db.delete(DBSchema.ImagesTable.NAME, "id=?", new String[]{Integer.toString(id)});
-        db.close();
+        if (id != CTRepublic.NO_DATABASE_ID) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.delete(DBSchema.CollectionTable.NAME, "id=?", new String[]{Integer.toString(id)});
+            db.delete(DBSchema.ImagesTable.NAME, "id=?", new String[]{Integer.toString(id)});
+            db.close();
+        }
     }
 
     public int saveItem(CollectionItem collectionItem) {

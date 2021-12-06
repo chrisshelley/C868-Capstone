@@ -139,4 +139,14 @@ public class CTRepublic {
         }, currentYear, currentMonth, currentDay);
         pickerDialog.show();
     }
+
+    public static CollectionItem getCollectionClass(String itemType) {
+        if (itemType.equals(CTRepublic.TYPE_PUTTER_COVER)) {
+            return new PutterCover();
+        } else if (itemType.equals(CTRepublic.TYPE_WOOD_COVER)) {
+            return new WoodCover();
+        } else {
+            return new Accessory();
+        }
+    }
 }

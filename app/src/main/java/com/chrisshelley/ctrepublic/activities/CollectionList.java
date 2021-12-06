@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chrisshelley.ctrepublic.R;
@@ -79,18 +80,27 @@ public class CollectionList extends AppCompatActivity {
 
     private class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView mItemName;
+        private TextView mItemType;
+        private TextView mItemSubType;
+        private ImageView mFeaturedImage;
         private CollectionItem mCollectionItem;
 
         public ItemHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_collection_item, parent, false));
 
             itemView.setOnClickListener(this);
+            //TODO: Image path from model
             this.mItemName = itemView.findViewById(R.id.item_name);
+            this.mItemType = itemView.findViewById(R.id.item_type);
+            this.mItemSubType = itemView.findViewById(R.id.item_subtype);
+            this.mFeaturedImage = itemView.findViewById(R.id.image_item_featured);
         }
 
         public void bind(CollectionItem collectionItem) {
             mCollectionItem = collectionItem;
             mItemName.setText(mCollectionItem.getName());
+            mItemType.setText(mCollectionItem.getItemType());
+            mItemSubType.setText(mCollectionItem.getItemSubtype());
         }
 
         @Override

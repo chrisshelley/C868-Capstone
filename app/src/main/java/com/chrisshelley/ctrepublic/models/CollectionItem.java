@@ -48,6 +48,19 @@ public abstract class CollectionItem {
 
     public Double getPurchasePrice() { return mPurchasePrice; }
 
+    public void setPurchasePrice(String purchasePrice) {
+        if (purchasePrice == null) {
+            return;
+        } else {
+            String scrubbedPurchasePrice = purchasePrice.replaceAll("[^\\d.]+", "");
+            try {
+                mPurchasePrice = Double.parseDouble(scrubbedPurchasePrice);
+            } catch (NullPointerException e) {
+                mPurchasePrice = 0.00;
+            }
+        }
+    }
+
     public void setPurchasePrice(Double purchasePrice) { mPurchasePrice = purchasePrice; }
 
     public String getNotes() { return mNotes; }
