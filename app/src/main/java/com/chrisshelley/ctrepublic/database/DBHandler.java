@@ -42,6 +42,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + DBSchema.CollectionTable.Cols.FEATURED_IMAGE_URI + " TEXT,"
                 + DBSchema.CollectionTable.Cols.NOTES + " TEXT)";
 
+        // SECURITY: None of these fields are exposed to user input can can be trusted to run under execSQL
         db.execSQL(create_collection_table);
     }
 
@@ -124,7 +125,6 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     public CollectionItem getItem(int id) {
-        //TODO: use safe sql
         CollectionItem collectionItem = null;
         if (id == CTRepublic.NO_DATABASE_ID) {
             return collectionItem;
@@ -157,9 +157,10 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     public int saveItem(CollectionItem collectionItem) {
-        //TODO: use safe sql
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+
+        // SECURITY: Parameters are not the same as simple string substitution; they give their values directly to the database without further interpretation:
         values.put(DBSchema.CollectionTable.Cols.NAME, collectionItem.getName());
         values.put(DBSchema.CollectionTable.Cols.ITEM_TYPE, collectionItem.getItemType());
         values.put(DBSchema.CollectionTable.Cols.ITEM_SUBTYPE, collectionItem.getItemSubtype());
@@ -167,6 +168,8 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(DBSchema.CollectionTable.Cols.PURCHASE_PRICE, collectionItem.getPurchasePrice());
         values.put(DBSchema.CollectionTable.Cols.NOTES, collectionItem.getNotes());
         values.put(DBSchema.CollectionTable.Cols.FEATURED_IMAGE_URI, collectionItem.getFeaturedImageURIString());
+
+        // SECURITY: Database ID's are not user inputted information and can be trusted
         if (collectionItem.getID() == CTRepublic.NO_DATABASE_ID) {
             long id = db.insert(DBSchema.CollectionTable.NAME, null, values);
             collectionItem.setID((int)id);

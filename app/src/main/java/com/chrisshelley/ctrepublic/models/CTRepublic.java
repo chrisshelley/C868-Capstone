@@ -46,7 +46,7 @@ public class CTRepublic {
     TODO: ability to generate reports with multiple columns, multiple rows, date-time stamp, and title
     DONE: exception controls - Use Try Catches
     DONE: validation functionality - Validate form fields
-    TODO: industry appropriate security features - SAFE SQL
+    DONE: industry appropriate security features - Use SQL parameters instead to defend against malicious customer input
     DONE: design elements that make the application scalable - Recycle view
     DONE: a user-friendly, functional GUI - Intuitive UI design
     */
