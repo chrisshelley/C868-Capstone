@@ -179,7 +179,6 @@ public class ItemDetails extends AppCompatActivity {
         });
 
         mFeaturedImage = (ImageView) findViewById(R.id.image_item_featured);
-        //TODO: Set image if one exists
 
         mNewImageButton = (Button) findViewById(R.id.btn_new_image);
         mNewImageButton.setOnClickListener(new View.OnClickListener() {

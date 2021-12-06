@@ -123,7 +123,6 @@ public class CollectionList extends AppCompatActivity {
             super(inflater.inflate(R.layout.list_collection_item, parent, false));
 
             itemView.setOnClickListener(this);
-            //TODO: Image path from model
             this.mItemName = itemView.findViewById(R.id.item_name);
             this.mItemType = itemView.findViewById(R.id.item_type);
             this.mItemSubType = itemView.findViewById(R.id.item_subtype);
