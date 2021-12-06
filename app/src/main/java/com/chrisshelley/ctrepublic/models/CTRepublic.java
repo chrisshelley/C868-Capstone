@@ -41,7 +41,7 @@ public class CTRepublic {
     Design and develop a fully functional software application that addresses your identified business problem or organizational need. Include each of the following attributes as they are the minimum required elements for the application:
     DONE: one of the following application types: mobile, web, or stand-alone application
     DONE: code including inheritance, polymorphism, and encapsulation
-    TODO: search functionality with multiple row results and displays - Custom Search
+    DONE: search functionality with multiple row results and displays - Collection List search
     DONE a database component with the functionality to securely add, modify, and delete the data
     TODO: ability to generate reports with multiple columns, multiple rows, date-time stamp, and title
     DONE: exception controls - Use Try Catches

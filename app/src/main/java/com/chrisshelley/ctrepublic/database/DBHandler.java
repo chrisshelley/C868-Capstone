@@ -124,6 +124,36 @@ public class DBHandler extends SQLiteOpenHelper {
         return collection;
     }
 
+    public ArrayList<CollectionItem> search(String searchTerm) {
+        ArrayList<CollectionItem> collection = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //SECURITY: Since keywords come from a user input, we need to make sure that we use parameters
+        //          and not inline concatenation to avoid malicious sql.
+        String searchQuery = "SELECT * FROM " + DBSchema.CollectionTable.NAME + " where ("
+                + DBSchema.CollectionTable.Cols.NAME + " like ? OR "
+                + DBSchema.CollectionTable.Cols.NOTES + " like ?)";
+
+        Cursor cursor = db.rawQuery(searchQuery, new String[] { "%" + searchTerm + "%", "%" + searchTerm + "%"  });
+        if (cursor.moveToFirst()) {
+            do {
+                CollectionItem collectionItem;
+                String itemType = cursor.getString(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.ITEM_TYPE));
+                collectionItem = CTRepublic.getCollectionClass(itemType);
+                collectionItem.setID(cursor.getInt(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.ID)));
+                collectionItem.setName(cursor.getString(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.NAME)));
+                collectionItem.setItemSubtype(cursor.getString(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.ITEM_SUBTYPE)));
+                collectionItem.setReleaseDate(cursor.getString(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.RELEASE_DATE)));
+                collectionItem.setPurchasePrice(cursor.getDouble(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.PURCHASE_PRICE)));
+                collectionItem.setNotes(cursor.getString(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.NOTES)));
+                collectionItem.setFeaturedImageURI(cursor.getString(cursor.getColumnIndexOrThrow(DBSchema.CollectionTable.Cols.FEATURED_IMAGE_URI)));
+                collection.add(collectionItem);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return collection;
+    }
+
     public CollectionItem getItem(int id) {
         CollectionItem collectionItem = null;
         if (id == CTRepublic.NO_DATABASE_ID) {

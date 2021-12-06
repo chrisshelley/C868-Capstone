@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.chrisshelley.ctrepublic.R;
@@ -25,18 +27,20 @@ import java.util.ArrayList;
 
 public class CollectionList extends AppCompatActivity {
     private ArrayList<CollectionItem> mCollection;
+    private DBHandler dbHandler;
+    private RecyclerView rvCollectionList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collection_list);
 
-        DBHandler dbHandler = CTRepublic.getInstance().getDBHandler(this);
+        dbHandler = CTRepublic.getInstance().getDBHandler(this);
         mCollection = dbHandler.getCollection();
         setTitle("Collection List");
 
         final CollectionListAdapter collectionListAdapter = new CollectionListAdapter(this);
-        RecyclerView rvCollectionList = findViewById(R.id.rv_collection_list);
+        rvCollectionList = findViewById(R.id.rv_collection_list);
         rvCollectionList.setAdapter(collectionListAdapter);
         rvCollectionList.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -56,7 +60,37 @@ public class CollectionList extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_collection_list, menu);
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.search_view).getActionView();
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setIconified(false);
+        searchView.setIconifiedByDefault(false);
+        searchView.setQueryHint("Search Keyword");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String searchTerms) {
+                search(searchTerms);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String searchTerms) {
+                search(searchTerms);
+                return false;
+            }
+        });
         return true;
+    }
+
+    public void search(String searchTerm) {
+        ArrayList<CollectionItem> searchResults = dbHandler.search(searchTerm);
+        if (searchResults != null) {
+            mCollection = searchResults;
+            final CollectionListAdapter searchListAdapter = new CollectionListAdapter(this);
+            rvCollectionList.setAdapter(searchListAdapter);
+        }
     }
 
     @Override
