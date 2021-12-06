@@ -194,10 +194,11 @@ public class ItemDetails extends AppCompatActivity {
 
         if (mItem != null) {
             mPurchasePrice.setText(String.format("%.2f", mItem.getPurchasePrice()));
-            mReleaseDate.setText(mItem.getReleaseDateString());
+            mReleaseDate.setText(mItem.getReleaseDate());
             mItemName.setText(mItem.getName());
             mNotes.setText(mItem.getNotes());
-            mFeaturedImage.setImageURI(mItem.getFeaturedImageURI());
+            mFeaturedImageURI = mItem.getFeaturedImageURI();
+            mFeaturedImage.setImageURI(mFeaturedImageURI);
         }
     }
 

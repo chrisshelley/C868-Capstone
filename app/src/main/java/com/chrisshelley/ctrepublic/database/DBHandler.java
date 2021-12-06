@@ -164,7 +164,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(DBSchema.CollectionTable.Cols.NAME, collectionItem.getName());
         values.put(DBSchema.CollectionTable.Cols.ITEM_TYPE, collectionItem.getItemType());
         values.put(DBSchema.CollectionTable.Cols.ITEM_SUBTYPE, collectionItem.getItemSubtype());
-        values.put(DBSchema.CollectionTable.Cols.RELEASE_DATE, collectionItem.getReleaseDateString());
+        values.put(DBSchema.CollectionTable.Cols.RELEASE_DATE, collectionItem.getReleaseDate());
         values.put(DBSchema.CollectionTable.Cols.PURCHASE_PRICE, collectionItem.getPurchasePrice());
         values.put(DBSchema.CollectionTable.Cols.NOTES, collectionItem.getNotes());
         values.put(DBSchema.CollectionTable.Cols.FEATURED_IMAGE_URI, collectionItem.getFeaturedImageURIString());

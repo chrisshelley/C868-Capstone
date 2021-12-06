@@ -9,7 +9,7 @@ public abstract class CollectionItem {
     private Integer mID;
     private String mName;
     private String mItemSubtype;
-    private Date mReleaseDate;
+    private String mReleaseDate;
     private Double mPurchasePrice;
     private String mNotes;
     private Uri mFeaturedImageURI;
@@ -52,20 +52,9 @@ public abstract class CollectionItem {
 
     public void setItemSubtype(String subtype) { mItemSubtype = subtype; }
 
-    public Date getReleaseDate() { return mReleaseDate; }
+    public String getReleaseDate() { return mReleaseDate; }
 
-    public String getReleaseDateString() {
-        //TODO: Convert string to date
-        //TODO: use try catch around date conversion maybe
-        return "";
-    }
-
-    public void setReleaseDate(Date releaseDate) { mReleaseDate = releaseDate; }
-
-    public void setReleaseDate(String releaseDate) {
-        //TODO: Convert string to date
-        //TODO: use try catch around date conversion maybe
-    }
+    public void setReleaseDate(String releaseDate) { mReleaseDate = releaseDate; }
 
     public Double getPurchasePrice() { return mPurchasePrice; }
 
