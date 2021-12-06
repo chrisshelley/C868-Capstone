@@ -132,9 +132,11 @@ public class DBHandler extends SQLiteOpenHelper {
         //          and not inline concatenation to avoid malicious sql.
         String searchQuery = "SELECT * FROM " + DBSchema.CollectionTable.NAME + " where ("
                 + DBSchema.CollectionTable.Cols.NAME + " like ? OR "
+                + DBSchema.CollectionTable.Cols.ITEM_TYPE + " like ? OR "
+                + DBSchema.CollectionTable.Cols.ITEM_SUBTYPE + " like ? OR "
                 + DBSchema.CollectionTable.Cols.NOTES + " like ?)";
 
-        Cursor cursor = db.rawQuery(searchQuery, new String[] { "%" + searchTerm + "%", "%" + searchTerm + "%"  });
+        Cursor cursor = db.rawQuery(searchQuery, new String[] { "%" + searchTerm + "%", "%" + searchTerm + "%", "%" + searchTerm + "%", "%" + searchTerm + "%" });
         if (cursor.moveToFirst()) {
             do {
                 CollectionItem collectionItem;
