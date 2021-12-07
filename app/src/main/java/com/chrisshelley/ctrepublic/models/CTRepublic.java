@@ -18,6 +18,9 @@ public class CTRepublic {
     public static final Integer NO_DATABASE_ID = 0;
     public static final Integer NEED_SAMPLE_DATA = 0;
     public static final Integer SAMPLE_DATA_APPLIED = 1;
+    public static final Integer NAVIGATE_COLLECTION_LIST = 0;
+    public static final Integer NAVIGATE_REPORTS = 1;
+    public static final String NAVIGATION_OPTION = "NAVIGATION_OPTION";
     public static final String SHARED_PREFERENCES = "CTRepublic_PREFERENCES";
     public static final String CREATE_SAMPLE_DATA = "CREATE_SAMPLE_DATA";
     public static final String ITEM_ID = "ITEM_ID";
@@ -43,7 +46,7 @@ public class CTRepublic {
     DONE: code including inheritance, polymorphism, and encapsulation
     DONE: search functionality with multiple row results and displays - Collection List search
     DONE a database component with the functionality to securely add, modify, and delete the data
-    TODO: ability to generate reports with multiple columns, multiple rows, date-time stamp, and title
+    DONE: ability to generate reports with multiple columns, multiple rows, date-time stamp, and title
     DONE: exception controls - Use Try Catches
     DONE: validation functionality - Validate form fields
     DONE: industry appropriate security features - Use SQL parameters instead to defend against malicious customer input

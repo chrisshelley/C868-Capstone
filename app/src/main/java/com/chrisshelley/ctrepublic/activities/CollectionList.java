@@ -109,6 +109,7 @@ public class CollectionList extends AppCompatActivity {
     private void onItemSelected(CollectionItem collectionItem) {
         Intent navigationIntent = new Intent(this, ItemDetails.class);
         navigationIntent.putExtra(CTRepublic.ITEM_ID, collectionItem.getID());
+        navigationIntent.putExtra(CTRepublic.NAVIGATION_OPTION, CTRepublic.NAVIGATE_COLLECTION_LIST);
         startActivity(navigationIntent);
     }
 

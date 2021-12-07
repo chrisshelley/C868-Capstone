@@ -58,6 +58,8 @@ public abstract class CollectionItem {
 
     public Double getPurchasePrice() { return mPurchasePrice; }
 
+    public String getPurchasePriceDollarized() { return "$" + String.format("%.2f", getPurchasePrice()); }
+
     public void setPurchasePrice(String purchasePrice) {
         if (purchasePrice == null) {
             return;

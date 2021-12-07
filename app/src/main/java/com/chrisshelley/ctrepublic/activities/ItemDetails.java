@@ -192,7 +192,7 @@ public class ItemDetails extends AppCompatActivity {
         mNotes = (EditText) findViewById(R.id.txt_notes);
 
         if (mItem != null) {
-            mPurchasePrice.setText(String.format("%.2f", mItem.getPurchasePrice()));
+            mPurchasePrice.setText(mItem.getPurchasePriceDollarized());
             mReleaseDate.setText(mItem.getReleaseDate());
             mItemName.setText(mItem.getName());
             mNotes.setText(mItem.getNotes());
@@ -203,13 +203,23 @@ public class ItemDetails extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        CTRepublic.navigateTo(this, CollectionList.class);
+        int navigationOption = getIntent().getIntExtra(CTRepublic.NAVIGATION_OPTION, CTRepublic.NAVIGATE_COLLECTION_LIST);
+        if (navigationOption == CTRepublic.NAVIGATE_REPORTS) {
+            CTRepublic.navigateTo(this, Reports.class);
+        } else {
+            CTRepublic.navigateTo(this, CollectionList.class);
+        }
         return true;
     }
 
     @Override
     public void onBackPressed() {
-        CTRepublic.navigateTo(this, CollectionList.class);
+        int navigationOption = getIntent().getIntExtra(CTRepublic.NAVIGATION_OPTION, CTRepublic.NAVIGATE_COLLECTION_LIST);
+        if (navigationOption == CTRepublic.NAVIGATE_REPORTS) {
+            CTRepublic.navigateTo(this, Reports.class);
+        } else {
+            CTRepublic.navigateTo(this, CollectionList.class);
+        }
     }
 
     @Override
